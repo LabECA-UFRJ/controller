@@ -59,6 +59,10 @@
   <exec_depend>message_runtime</exec_depend>
   <exec_depend>geometry_msgs</exec_depend>
   <depend>std_msgs</depend>
+  <depend>controller_msgs</depend>
+  <depend>tf2</depend>
+  <depend>tf2_ros</depend>
+  <depend>tf2_geometry_msgs</depend>
 
   <!-- The export tag contains other, unspecified, tags -->
   <export>
