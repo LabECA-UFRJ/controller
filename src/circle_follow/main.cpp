@@ -140,7 +140,19 @@ private:
         auto xg = xc + circle.r * cos(angle);
         auto yg = yc + circle.r * sin(angle);
 
-        return atan2(yg - yr, xg - xr) - theta_r;
+        auto rotation = atan2(yg - yr, xg - xr) - theta_r;
+
+        if (rotation > M_PI)
+        {
+            rotation = -(2 * M_PI - rotation);
+        }
+        else if (rotation < -M_PI)
+        {
+            rotation = rotation + 2 * M_PI;
+        }
+
+        return rotation;
+        //return atan2(yg - yr, xg - xr) - theta_r;
         //return theta_r - atan2(yr - yg, xr - xg);
     }
 
