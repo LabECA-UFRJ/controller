@@ -108,6 +108,14 @@ private:
         return sqrt(pow(xr - xg, 2) + pow(yr - yg, 2));
     }
 
+    /*!
+     * @returns the angle converted to [-pi, pi]
+     */
+    double wrapAngle(const double angle)
+    {
+        return (angle + M_PI) % (2 * M_PI) - M_PI;
+    }
+
     double ComputeAlpha(const geometry_msgs::Transform &robot, const controller_msgs::Circle &circle)
     {
         tf2::Quaternion q(
@@ -185,16 +193,8 @@ private:
         double theta_r = atan2(v.y(), v.x());
 
         double rotation = theta_g - theta_r;
-        if (rotation > M_PI)
-        {
-            rotation = -(2 * M_PI - rotation);
-        }
-        else if (rotation < -M_PI)
-        {
-            rotation = rotation + 2 * M_PI;
-        }
 
-        return rotation;
+        return wrapAngle(rotation);
     }
 
     geometry_msgs::Transform GetTransform()
