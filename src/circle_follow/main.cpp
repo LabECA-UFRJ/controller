@@ -113,7 +113,7 @@ private:
      */
     double wrapAngle(const double angle)
     {
-        return remainder(angle, M_PI);
+        return remainder(angle, 2 * M_PI);
     }
 
     double ComputeAlpha(const geometry_msgs::Transform &robot, const controller_msgs::Circle &circle)
