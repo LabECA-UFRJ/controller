@@ -11,6 +11,7 @@ float I_gain;
 float D_gain;
 
 double lastError;
+double integral = 0;
 ros::Time lastErrorTime;
 bool hasLastError;
 
@@ -21,10 +22,12 @@ void controllerCallback(const std_msgs::Float64::ConstPtr& error)
         double de = error->data - lastError;
         double dt = (ros::Time::now() - lastErrorTime).toSec();
         derivative = D_gain * (de/dt);
+
+	integral += error->data * dt;
     }
 
     double proportional = error->data * P_gain;
-    double controlSignal = proportional + derivative;
+    double controlSignal = proportional + derivative + integral * I_gain;
 
     geometry_msgs::Twist twistSignal;
     twistSignal.angular.z = controlSignal;
@@ -45,6 +48,12 @@ int main(int argc, char** argv)
     {
         ROS_FATAL("Parameter P_gain not set.");
         return -1;
+    }
+
+    if (ros::param::get("~I_gain", I_gain) == false)
+    {
+	ROS_FATAL("Parameter I_gain not set.");
+	return -1;
     }
 
     if (ros::param::get("~D_gain", D_gain) == false)
